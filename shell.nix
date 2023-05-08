@@ -6,6 +6,7 @@ pkgs.mkShell rec {
     rustup
     pkg-config
     openssl
+    lld
   ];
   RUSTC_VERSION = pkgs.lib.readFile ./rust-toolchain;
   # https://github.com/rust-lang/rust-bindgen#environment-variables
