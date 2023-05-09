@@ -36,3 +36,9 @@ Cargo.lock
 
 .direnv/
 .cargo/
+rust-toolchain
+
+
+# Added by cargo
+
+/target
