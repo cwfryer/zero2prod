@@ -7,6 +7,7 @@ pkgs.mkShell rec {
     pkg-config
     openssl
     lld
+    postgresql_15
   ];
   RUSTC_VERSION = pkgs.lib.readFile ./rust-toolchain;
   # https://github.com/rust-lang/rust-bindgen#environment-variables
@@ -14,6 +15,7 @@ pkgs.mkShell rec {
   shellHook = ''
     export PATH=$PATH:''${CARGO_HOME:-~/.cargo}/bin
     export PATH=$PATH:''${RUSTUP_HOME:-~/.rustup}/toolchains/$RUSTC_VERSION-x86_64-unknown-linux-gnu/bin/
+    export DATABASE_URL=postgres://postgres:password@127.0.0.1:5432/newsletter
   '';
   # Add precompiled library to rustc search path
   RUSTFLAGS = builtins.map (a: ''-L ${a}/lib'') [
