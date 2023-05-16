@@ -37,7 +37,7 @@ Cargo.lock
 .direnv/
 .cargo/
 rust-toolchain
-configuration.yaml
+configuration/
 
 
 # Added by cargo
