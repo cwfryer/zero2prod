@@ -1,12 +1,11 @@
 ############### Builder stage ###############
 
 # We use the latest Rust stable release as base image
-FROM rust:1.49 AS builder
+FROM rust:1 AS builder
 
 WORKDIR /app
 
-RUN cargo install --locked --branch master \
-    --git https://github.com/eeff/cargo-build-deps
+RUN cargo install cargo-build-deps
 
 # Build the dependencies
 COPY Cargo.toml Cargo.lock ./
