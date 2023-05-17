@@ -8,6 +8,7 @@ pkgs.mkShell rec {
     openssl
     lld
     postgresql_15
+    doctl
   ];
   RUSTC_VERSION = pkgs.lib.readFile ./rust-toolchain;
   # https://github.com/rust-lang/rust-bindgen#environment-variables
