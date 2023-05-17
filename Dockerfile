@@ -19,7 +19,6 @@ COPY . .
 # Build out application, leveraging the cached deps
 RUN cargo build --release --bin zero2prod
 
-
 ############### Runtime stage ###############
 
 FROM debian:buster-slim AS runtime
@@ -37,11 +36,11 @@ RUN apt-get update -y \
 # Using production environment
 ENV APP_ENVIRONMENT production
 
-# Lauch our binary
-ENTRYPOINT ["./zero2prod"]
-
 # We need the configuration file at runtime
 COPY configuration configuration
 
 # Copy the compiled binary from the builder environment
 COPY --from=builder /app/target/release/zero2prod zero2prod
+
+# Lauch our binary
+ENTRYPOINT ["./zero2prod"]

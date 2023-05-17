@@ -1,6 +1,9 @@
-.env
+.envrc
 target/
 tests/
 Dockerfile
 scripts/
 migrations/
+rust-toolchain
+shell.nix
+.direnv
