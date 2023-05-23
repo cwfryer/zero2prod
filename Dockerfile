@@ -8,8 +8,8 @@ RUN cargo build --release --bin zero2prod
 
 FROM debian:bullseye-slim AS runtime
 WORKDIR /app
-COPY --from=builder /app/target/release/zero2prod zero2prod
 COPY configuration configuration
+COPY --from=builder /app/target/release/zero2prod zero2prod
 
 RUN apt-get update -y \
 && apt-get install -y --no-install-recommends openssl ca-certificates \
