@@ -42,3 +42,4 @@ rust-toolchain
 # Added by cargo
 
 /target
+migrate_prod.sh
