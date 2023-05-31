@@ -1,5 +1,4 @@
 use crate::helpers::spawn_app;
-use reqwest::Url;
 use wiremock::{ResponseTemplate,Mock};
 use wiremock::matchers::{path,method};
 
