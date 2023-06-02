@@ -1,4 +1,4 @@
-use crate::helpers::{spawn_app, ConfirmationLinks};
+use crate::helpers::spawn_app;
 use wiremock::{ResponseTemplate,Mock};
 use wiremock::matchers::{path,method};
 
