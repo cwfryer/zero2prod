@@ -1,5 +1,5 @@
-use crate::helpers::{spawn_app, TestApp, ConfirmationLinks};
-use wiremock::matchers::{method, path, any};
+use crate::helpers::{spawn_app, ConfirmationLinks, TestApp};
+use wiremock::matchers::{any, method, path};
 use wiremock::{Mock, ResponseTemplate};
 
 #[tokio::test]
@@ -66,11 +66,11 @@ async fn newsletters_returns_400_for_invalid_data() {
                     "text": "<p>Newsletter body as HTML</p>",
                 }
             }),
-            "missing title"
+            "missing title",
         ),
         (
             serde_json::json!({"title": "Newsletter"}),
-            "missing content"
+            "missing content",
         ),
     ];
     // Act
@@ -78,11 +78,36 @@ async fn newsletters_returns_400_for_invalid_data() {
         let response = app.post_newsletters(invalid_body).await;
         // Assert
         assert_eq!(
-            400, response.status().as_u16(),
+            400,
+            response.status().as_u16(),
             "The API did not return 400 when the payload was {}.",
             error_message
         );
     }
+}
+
+#[tokio::test]
+async fn requests_missing_authorization_are_rejected() {
+    // Arrange
+    let app = spawn_app().await;
+    let response = reqwest::Client::new()
+        .post(&format!("{}/newsletters", &app.address))
+        .json(&serde_json::json!({
+            "title": "Newsletter",
+            "content": {
+                "html": "<p>Newsletter body as HTML</p>",
+                "text": "Newsletter body as plain text."
+            }
+        }))
+        .send()
+        .await
+        .expect("Failed to execute request");
+
+    // Act
+
+    // Assert
+    assert_eq!(401, response.status().as_u16());
+    assert_eq!(r#"Basic realm="publish""#, response.headers()["WWW-Authenticate"]);
 }
 
 async fn create_unconfirmed_subscriber(app: &TestApp) -> ConfirmationLinks {
