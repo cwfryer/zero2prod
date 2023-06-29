@@ -50,6 +50,10 @@ features = [
   "offline"
 ]
 
+[dependencies.actix-session]
+version = "0.7.2"
+features = ["redis-rs-tls-session"]
+
 [dev-dependencies]
 once_cell = "1"
 claim = "0.5"
