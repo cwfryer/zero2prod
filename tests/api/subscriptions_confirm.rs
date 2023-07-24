@@ -1,4 +1,4 @@
-use crate::helpers::spawn_app;
+use crate::helpers::{spawn_app, when_sending_an_email};
 use wiremock::{ResponseTemplate,Mock};
 use wiremock::matchers::{path,method};
 
@@ -8,8 +8,7 @@ async fn the_link_returned_by_subscribe_returns_200_if_called() {
     let app = spawn_app().await;
     let body = "name=le%20guin&email=ursula_le_guin%40gmail.com";
 
-    Mock::given(path("/smtp/email"))
-        .and(method("POST"))
+    when_sending_an_email()
         .respond_with(ResponseTemplate::new(200))
         .mount(&app.email_server)
         .await;
@@ -47,8 +46,7 @@ async fn clicking_on_the_confirmation_link_confirms_a_subscriber() {
     let app = spawn_app().await;
     let body = "name=le%20guin&email=ursula_le_guin%40gmail.com";
 
-    Mock::given(path("/smtp/email"))
-        .and(method("POST"))
+    when_sending_an_email()
         .respond_with(ResponseTemplate::new(200))
         .mount(&app.email_server)
         .await;
